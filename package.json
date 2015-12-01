@@ -1,0 +1,38 @@
+{
+  "name": "react-i13n-gtm",
+  "version": "1.0.0",
+  "description": "google tag manager plugin for react i13n",
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "test": "mocha tests/unit --compilers js:babel-core/register --recursive --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atondelier/react-i13n-gtm.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atondelier/react-i13n-gtm/issues"
+  },
+  "homepage": "https://github.com/atondelier/react-i13n-gtm#readme",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-transform-flow-strip-types": "^6.1.18",
+    "babel-plugin-typecheck": "^3.3.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
+    "chai": "^3.4.1",
+    "chai-as-promised": "^5.1.0",
+    "chai-dom": "^1.4.0",
+    "jsdom": "^7.1.0",
+    "mocha": "^2.3.4",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-i13n": "^1.0.0",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
+    "webpack": "^1.12.9"
+  }
+}
