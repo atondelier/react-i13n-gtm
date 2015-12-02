@@ -79,23 +79,7 @@ class ReactI13nGTM {
 
     getPlugin() {
 
-        var handleCustomEvent = (payload, callback) => {
-
-            this.load();
-
-            window[this.dataLayerName].push({
-                'event': payload.event || 'custom',
-                'target': payload.category || DEFAULT_CATEGORY,
-                'action': payload.action || DEFAULT_ACTION,
-                'target-properties': payload.label || DEFAULT_LABEL,
-                'value': payload.value,
-                'interaction-type': payload.noninteraction
-            });
-
-            callback();
-        };
-
-        return {
+        var plugin = {
             name: 'gtm',
             eventHandlers: {
 
@@ -111,17 +95,33 @@ class ReactI13nGTM {
                     callback();
                 },
 
-                custom: handleCustomEvent,
+                custom: (payload, callback) => {
+
+                    this.load();
+
+                    window[this.dataLayerName].push({
+                        'event': payload.event || 'custom',
+                        'target': payload.category || DEFAULT_CATEGORY,
+                        'action': payload.action || DEFAULT_ACTION,
+                        'target-properties': payload.label || DEFAULT_LABEL,
+                        'value': payload.value,
+                        'interaction-type': payload.noninteraction
+                    });
+
+                    callback();
+                },
 
                 click: (payload, callback) => {
-                    handleCustomEvent({
-                        ...payload,
-                        event: 'click'
-                    }, callback);
+
+                    payload.event = 'click';
+
+                    plugin.eventHandlers.custom(payload, callback);
                 }
 
             }
-        }
+        };
+
+        return plugin;
     }
 }
 

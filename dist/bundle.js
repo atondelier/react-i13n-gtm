@@ -90,8 +90,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function load() {
 	            var _this = this;
 	
-	            if (this.loadPromise) {
-	                return this.loadPromise;
+	            if (this._loadPromise) {
+	                return this._loadPromise;
 	            }
 	
 	            var loadPromise = new Promise(function (resolve, reject) {
@@ -110,7 +110,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                var loaded = false;
 	                script.onload = script.onreadystatechange = function () {
-	                    console.log('event');
 	                    if (!loaded && (!this.readyState || this.readyState == 'complete')) {
 	                        resolve();
 	                        loaded = true;
@@ -144,23 +143,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function getPlugin() {
 	            var _this2 = this;
 	
-	            var handleCustomEvent = function handleCustomEvent(payload, callback) {
-	
-	                _this2.load();
-	
-	                window[_this2.dataLayerName].push({
-	                    'event': payload.event || 'custom',
-	                    'target': payload.category || DEFAULT_CATEGORY,
-	                    'action': payload.action || DEFAULT_ACTION,
-	                    'target-properties': payload.label || DEFAULT_LABEL,
-	                    'value': payload.value,
-	                    'interaction-type': payload.noninteraction
-	                });
-	
-	                callback();
-	            };
-	
-	            return {
+	            var plugin = {
 	                name: 'gtm',
 	                eventHandlers: {
 	
@@ -176,16 +159,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        callback();
 	                    },
 	
-	                    custom: handleCustomEvent,
+	                    custom: function custom(payload, callback) {
+	
+	                        _this2.load();
+	
+	                        window[_this2.dataLayerName].push({
+	                            'event': payload.event || 'custom',
+	                            'target': payload.category || DEFAULT_CATEGORY,
+	                            'action': payload.action || DEFAULT_ACTION,
+	                            'target-properties': payload.label || DEFAULT_LABEL,
+	                            'value': payload.value,
+	                            'interaction-type': payload.noninteraction
+	                        });
+	
+	                        callback();
+	                    },
 	
 	                    click: function click(payload, callback) {
-	                        handleCustomEvent(_extends({}, payload, {
-	                            event: 'click'
-	                        }), callback);
+	
+	                        payload.event = 'click';
+	
+	                        plugin.eventHandlers.custom(payload, callback);
 	                    }
 	
 	                }
 	            };
+	
+	            return plugin;
 	        }
 	    }]);
 	

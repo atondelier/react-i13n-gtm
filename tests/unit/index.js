@@ -48,6 +48,10 @@ describe('gtm plugin client', function () {
 
             });
 
+            it('should load once', function () {
+                reactI13nGTM.load().should.equal(reactI13nGTM.load());
+            });
+
         });
 
         describe('getPlugin', function () {
@@ -70,6 +74,18 @@ describe('gtm plugin client', function () {
 
             describe('eventHandlers', function () {
 
+                beforeEach(function () {
+
+                    sinon.spy(reactI13nGTM, 'load');
+
+                });
+
+                afterEach(function () {
+
+                    reactI13nGTM.load.restore();
+
+                });
+
                 describe('pageview', function () {
 
                     it('should push the right event in the data layer', function (done) {
@@ -83,6 +99,7 @@ describe('gtm plugin client', function () {
                                 'content-name': payload.url,
                                 event: 'content-view'
                             });
+                            reactI13nGTM.load.should.have.been.calledOnce;
                             done();
                         });
 
@@ -112,6 +129,7 @@ describe('gtm plugin client', function () {
                                 'value': payload.value,
                                 'interaction-type': payload.noninteraction
                             });
+                            reactI13nGTM.load.should.have.been.calledOnce;
                             done();
                         });
 
@@ -152,6 +170,8 @@ describe('gtm plugin client', function () {
                                 'value': payload.value,
                                 'interaction-type': payload.noninteraction
                             });
+                            plugin.eventHandlers.custom.should.have.been.calledOnce;
+                            reactI13nGTM.load.should.have.been.calledOnce;
                             done();
                         });
 
