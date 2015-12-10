@@ -6,7 +6,7 @@ module.exports = {
         path: './dist',
         filename: 'bundle.js',
         libraryTarget: 'umd',
-        library: 'ReactI13nGTM',
+        library: 'ReactI13nGTM'
     },
     module: {
         loaders: [
@@ -23,7 +23,5 @@ module.exports = {
     stats: {
         // Nice colored output
         colors: true
-    },
-    // Create Sourcemaps for the bundle
-    devtool: 'source-map'
+    }
 };
