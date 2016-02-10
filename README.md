@@ -34,6 +34,10 @@ App = setupI13n(App, {}, [reactI13nGTM.getPlugin()]);
 Given current url '/sample/url':
 
 ```JS
+reacti13nInstance.execute('pageview', {
+    url: '/sample/url'
+});
+
 dataLayer[dataLayer.length - 1].should.deep.equal({
     'event': 'content-view',
     'content-name': '/sample/url'
@@ -45,16 +49,31 @@ dataLayer[dataLayer.length - 1].should.deep.equal({
 Given current payload as an object:
 
 ```JS
+reacti13nInstance.execute('custom', payload);
+
 dataLayer[dataLayer.length - 1].should.deep.equal({
     'event': payload.event,
     'target': payload.category || 'all',
     'action': payload.action || 'click',
     'target-properties': payload.label || '',
     'value': payload.value,
-    'interaction-type': payload.noninteraction
+    'interaction-type': payload.noninteraction,
+    ...payload.extraVariables
 });
 ```
 
 #### Click event
 
 This only set event to 'click' if not provided.
+
+
+#### Provide other variables
+
+Set all gtm variables as provided in the payload.
+
+
+```JS
+reacti13nInstance.execute('setVariables', payload);
+
+dataLayer[dataLayer.length - 1].should.deep.equal(payload);
+```

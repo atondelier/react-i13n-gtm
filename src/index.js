@@ -105,7 +105,8 @@ class ReactI13nGTM {
                         'action': payload.action || DEFAULT_ACTION,
                         'target-properties': payload.label || DEFAULT_LABEL,
                         'value': payload.value,
-                        'interaction-type': payload.noninteraction
+                        'interaction-type': payload.noninteraction,
+                        ...payload.extraVariables
                     });
 
                     callback();
@@ -116,6 +117,25 @@ class ReactI13nGTM {
                     payload.event = 'click';
 
                     plugin.eventHandlers.custom(payload, callback);
+                },
+
+                setVariables: (payload, callback) => {
+
+                    if (payload) {
+                        this.load();
+
+                        var data = {};
+
+                        for (var key in payload) {
+                            if (payload.hasOwnProperty(key) && key !== 'env' && key !== 'i13nNode') {
+                                data[key] = payload[key];
+                            }
+                        }
+
+                        window[this.dataLayerName].push(data);
+                    }
+
+                    callback();
                 }
 
             }

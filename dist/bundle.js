@@ -163,14 +163,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                        _this2.load();
 
-	                        window[_this2.dataLayerName].push({
+	                        window[_this2.dataLayerName].push(_extends({
 	                            'event': payload.event || 'custom',
 	                            'target': payload.category || DEFAULT_CATEGORY,
 	                            'action': payload.action || DEFAULT_ACTION,
 	                            'target-properties': payload.label || DEFAULT_LABEL,
 	                            'value': payload.value,
 	                            'interaction-type': payload.noninteraction
-	                        });
+	                        }, payload.extraVariables));
 
 	                        callback();
 	                    },
@@ -180,6 +180,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        payload.event = 'click';
 
 	                        plugin.eventHandlers.custom(payload, callback);
+	                    },
+
+	                    setVariables: function setVariables(payload, callback) {
+
+	                        if (payload) {
+	                            _this2.load();
+
+	                            var data = {};
+
+	                            for (var key in payload) {
+	                                if (payload.hasOwnProperty(key) && key !== 'env' && key !== 'i13nNode') {
+	                                    data[key] = payload[key];
+	                                }
+	                            }
+
+	                            window[_this2.dataLayerName].push(data);
+	                        }
+
+	                        callback();
 	                    }
 
 	                }

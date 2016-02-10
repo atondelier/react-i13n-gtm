@@ -4,7 +4,8 @@
   "description": "google tag manager plugin for react i13n",
   "main": "./dist/bundle.js",
   "scripts": {
-    "test": "mocha tests/unit --compilers js:babel-core/register --recursive --reporter spec"
+    "test": "mocha tests/unit --compilers js:babel-core/register --recursive --reporter spec",
+    "prepublish": "webpack"
   },
   "repository": {
     "type": "git",
